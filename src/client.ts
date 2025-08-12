@@ -130,6 +130,11 @@ export interface ClientOptions {
   bearerToken?: string | undefined;
 
   /**
+   * URL of the Taggy server without http(s):// (e.g. mytaggy.app)
+   */
+  baseURL: string;
+
+  /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
    * Defaults to process.env['TAGGY_BASE_URL'].
@@ -203,6 +208,7 @@ export interface ClientOptions {
  */
 export class Taggy {
   bearerToken: string;
+  baseURL: string;
 
   baseURL: string;
   maxRetries: number;
@@ -220,7 +226,8 @@ export class Taggy {
    * API Client for interfacing with the Taggy API.
    *
    * @param {string | undefined} [opts.bearerToken=process.env['TAGGY_BEARER_TOKEN'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['TAGGY_BASE_URL'] ?? //localhost:8080/api/v1] - Override the default base URL for the API.
+   * @param {string} opts.baseURL
+   * @param {string} [opts.baseURL=process.env['TAGGY_BASE_URL'] ?? //{baseURL}/api/v1] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -231,18 +238,25 @@ export class Taggy {
   constructor({
     baseURL = readEnv('TAGGY_BASE_URL'),
     bearerToken = readEnv('TAGGY_BEARER_TOKEN'),
+    baseURL,
     ...opts
-  }: ClientOptions = {}) {
+  }: ClientOptions) {
     if (bearerToken === undefined) {
       throw new Errors.TaggyError(
         "The TAGGY_BEARER_TOKEN environment variable is missing or empty; either provide it, or instantiate the Taggy client with an bearerToken option, like new Taggy({ bearerToken: 'My Bearer Token' }).",
       );
     }
+    if (baseURL === undefined) {
+      throw new Errors.TaggyError(
+        "Missing required client option baseURL; you need to instantiate the Taggy client with an baseURL option, like new Taggy({ baseURL: 'My Base URL' }).",
+      );
+    }
 
     const options: ClientOptions = {
       bearerToken,
+      baseURL,
       ...opts,
-      baseURL: baseURL || `//localhost:8080/api/v1`,
+      baseURL: baseURL || `//{baseURL}/api/v1`,
     };
 
     this.baseURL = options.baseURL!;
@@ -263,6 +277,7 @@ export class Taggy {
     this._options = options;
 
     this.bearerToken = bearerToken;
+    this.baseURL = baseURL;
   }
 
   /**
@@ -279,6 +294,7 @@ export class Taggy {
       fetch: this.fetch,
       fetchOptions: this.fetchOptions,
       bearerToken: this.bearerToken,
+      baseURL: this.baseURL,
       ...options,
     });
     return client;
@@ -288,7 +304,7 @@ export class Taggy {
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== '//localhost:8080/api/v1';
+    return this.baseURL !== '//{baseURL}/api/v1';
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
