@@ -473,7 +473,8 @@ describe('instantiate client', () => {
   test('with environment variable arguments', () => {
     // set options via env var
     process.env['TAGGY_BEARER_TOKEN'] = 'My Bearer Token';
-    const client = new Taggy({ baseURL: 'My Base URL' });
+    process.env['TAGGY_BASE_URL'] = 'My Base URL';
+    const client = new Taggy();
     expect(client.bearerToken).toBe('My Bearer Token');
     expect(client.baseURL).toBe('My Base URL');
   });
@@ -481,6 +482,7 @@ describe('instantiate client', () => {
   test('with overridden environment variable arguments', () => {
     // set options via env var
     process.env['TAGGY_BEARER_TOKEN'] = 'another My Bearer Token';
+    process.env['TAGGY_BASE_URL'] = 'another My Base URL';
     const client = new Taggy({ bearerToken: 'My Bearer Token', baseURL: 'My Base URL' });
     expect(client.bearerToken).toBe('My Bearer Token');
     expect(client.baseURL).toBe('My Base URL');
