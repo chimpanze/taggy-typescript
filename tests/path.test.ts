@@ -1,4 +1,4 @@
-import { createPathTagFunction, encodeURIPath } from '@chimpanze/taggy-typescript/internal/utils/path';
+import { createPathTagFunction, encodeURIPath } from 'taggy/internal/utils/path';
 import { inspect } from 'node:util';
 import { runInNewContext } from 'node:vm';
 

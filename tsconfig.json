@@ -9,8 +9,8 @@
     "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
-      "@chimpanze/taggy-typescript/*": ["src/*"],
-      "@chimpanze/taggy-typescript": ["src/index.ts"]
+      "taggy/*": ["src/*"],
+      "taggy": ["src/index.ts"]
     },
     "noEmit": true,
 
