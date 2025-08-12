@@ -27,13 +27,13 @@ export { Comments } from './comments/comments';
 export {
   Content,
   type ContentResponse,
-  type ContentListResponse,
   type ContentImportResponse,
   type ContentCreateParams,
   type ContentUpdateParams,
   type ContentListParams,
   type ContentBulkOperationsParams,
   type ContentImportParams,
+  type ContentResponsesMyPageNumberPage,
 } from './content/content';
 export {
   Extension,

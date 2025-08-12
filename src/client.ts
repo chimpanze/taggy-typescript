@@ -97,8 +97,8 @@ import {
   ContentImportParams,
   ContentImportResponse,
   ContentListParams,
-  ContentListResponse,
   ContentResponse,
+  ContentResponsesMyPageNumberPage,
   ContentUpdateParams,
 } from './resources/content/content';
 import { Likes } from './resources/likes/likes';
@@ -902,8 +902,8 @@ export declare namespace Taggy {
   export {
     Content as Content,
     type ContentResponse as ContentResponse,
-    type ContentListResponse as ContentListResponse,
     type ContentImportResponse as ContentImportResponse,
+    type ContentResponsesMyPageNumberPage as ContentResponsesMyPageNumberPage,
     type ContentCreateParams as ContentCreateParams,
     type ContentUpdateParams as ContentUpdateParams,
     type ContentListParams as ContentListParams,

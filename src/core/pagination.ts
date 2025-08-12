@@ -145,10 +145,10 @@ export class MyPageNumberPage<Item> extends AbstractPage<Item> implements MyPage
     super(client, response, body, options);
 
     this.data = body.data || [];
-    this.page = body.page || 0.0;
-    this.page_size = body.page_size || 0.0;
-    this.total = body.total || 0.0;
-    this.total_pages = body.total_pages || 0.0;
+    this.page = body.page || 0;
+    this.page_size = body.page_size || 0;
+    this.total = body.total || 0;
+    this.total_pages = body.total_pages || 0;
   }
 
   getPaginatedItems(): Item[] {
