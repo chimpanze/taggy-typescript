@@ -7,8 +7,8 @@ const config: JestConfigWithTsJest = {
     '^.+\\.(t|j)sx?$': ['@swc/jest', { sourceMaps: 'inline' }],
   },
   moduleNameMapper: {
-    '^@chimpanze/taggy-typescript$': '<rootDir>/src/index.ts',
-    '^@chimpanze/taggy-typescript/(.*)$': '<rootDir>/src/$1',
+    '^taggy$': '<rootDir>/src/index.ts',
+    '^taggy/(.*)$': '<rootDir>/src/$1',
   },
   modulePathIgnorePatterns: [
     '<rootDir>/ecosystem-tests/',
