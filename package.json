@@ -1,5 +1,5 @@
 {
-  "name": "taggy",
+  "name": "@chimpanze/taggy-typescript",
   "version": "0.1.0",
   "description": "The official TypeScript library for the Taggy API",
   "author": "Taggy <support@swagger.io>",
@@ -12,9 +12,9 @@
   "files": [
     "**/*"
   ],
-  "private": false,
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "@chimpanze:registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "test": "./scripts/test",
@@ -26,7 +26,6 @@
     "lint": "./scripts/lint",
     "fix": "./scripts/format"
   },
-  "dependencies": {},
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.17.0",
     "@swc/core": "^1.3.102",
