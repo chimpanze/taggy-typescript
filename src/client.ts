@@ -226,7 +226,7 @@ export class Taggy {
    * API Client for interfacing with the Taggy API.
    *
    * @param {string | undefined} [opts.bearerToken=process.env['TAGGY_BEARER_TOKEN'] ?? undefined]
-   * @param {string | undefined} [opts.taggyDomain=process.env['TAGGY_DOMAIN'] ?? undefined]
+   * @param {string | undefined} [opts.taggyDomain=process.env['TAGGY_DOMAIN'] ?? mytaggy.app]
    * @param {string} [opts.baseURL=process.env['TAGGY_BASE_URL'] ?? //{taggy_domain}/api/v1] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
@@ -238,17 +238,12 @@ export class Taggy {
   constructor({
     baseURL = readEnv('TAGGY_BASE_URL'),
     bearerToken = readEnv('TAGGY_BEARER_TOKEN'),
-    taggyDomain = readEnv('TAGGY_DOMAIN'),
+    taggyDomain = readEnv('TAGGY_DOMAIN') ?? 'mytaggy.app',
     ...opts
   }: ClientOptions = {}) {
     if (bearerToken === undefined) {
       throw new Errors.TaggyError(
         "The TAGGY_BEARER_TOKEN environment variable is missing or empty; either provide it, or instantiate the Taggy client with an bearerToken option, like new Taggy({ bearerToken: 'My Bearer Token' }).",
-      );
-    }
-    if (taggyDomain === undefined) {
-      throw new Errors.TaggyError(
-        "The TAGGY_DOMAIN environment variable is missing or empty; either provide it, or instantiate the Taggy client with an taggyDomain option, like new Taggy({ taggyDomain: 'My Taggy Domain' }).",
       );
     }
 
