@@ -3,7 +3,7 @@ import {
   buildHeaders,
   type HeadersLike,
   type NullableHeaders,
-} from '@chimpanze/taggy-frontend/internal/headers';
+} from '@chimpanze/taggy-typescript/internal/headers';
 
 function inspectNullableHeaders(headers: NullableHeaders) {
   return `NullableHeaders {${[

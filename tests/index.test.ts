@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from '@chimpanze/taggy-frontend/core/api-promise';
+import { APIPromise } from '@chimpanze/taggy-typescript/core/api-promise';
 
 import util from 'node:util';
-import Taggy from '@chimpanze/taggy-frontend';
-import { APIUserAbortError } from '@chimpanze/taggy-frontend';
+import Taggy from '@chimpanze/taggy-typescript';
+import { APIUserAbortError } from '@chimpanze/taggy-typescript';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {

@@ -1,5 +1,5 @@
 {
-  "name": "@chimpanze/taggy-frontend",
+  "name": "@chimpanze/taggy-typescript",
   "version": "0.0.1",
   "description": "The official TypeScript library for the Taggy API",
   "author": "Taggy <support@swagger.io>",
