@@ -1,6 +1,6 @@
 {
   "name": "taggy",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "The official TypeScript library for the Taggy API",
   "author": "Taggy <support@swagger.io>",
   "types": "dist/index.d.ts",
