@@ -55,12 +55,12 @@ $ cd taggy-typescript
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link @chimpanze/taggy-frontend
+$ yarn link @chimpanze/taggy-typescript
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global @chimpanze/taggy-frontend
+$ pnpm link -—global @chimpanze/taggy-typescript
 ```
 
 ## Running tests

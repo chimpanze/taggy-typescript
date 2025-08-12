@@ -25,7 +25,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '^@chimpanze/taggy-frontend(/.*)?',
+              regex: '^@chimpanze/taggy-typescript(/.*)?',
               message: 'Use a relative import, not a package import.',
             },
           ],

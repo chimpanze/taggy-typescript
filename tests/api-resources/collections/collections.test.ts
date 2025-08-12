@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Taggy from '@chimpanze/taggy-frontend';
+import Taggy from '@chimpanze/taggy-typescript';
 
 const client = new Taggy({
   bearerToken: 'My Bearer Token',

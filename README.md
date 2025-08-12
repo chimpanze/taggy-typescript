@@ -1,6 +1,6 @@
 # Taggy TypeScript API Library
 
-[![NPM version](<https://img.shields.io/npm/v/@chimpanze/taggy-frontend.svg?label=npm%20(stable)>)](https://npmjs.org/package/@chimpanze/taggy-frontend) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@chimpanze/taggy-frontend)
+[![NPM version](<https://img.shields.io/npm/v/@chimpanze/taggy-typescript.svg?label=npm%20(stable)>)](https://npmjs.org/package/@chimpanze/taggy-typescript) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/@chimpanze/taggy-typescript)
 
 This library provides convenient access to the Taggy REST API from server-side TypeScript or JavaScript.
 
@@ -15,7 +15,7 @@ npm install git+ssh://git@github.com:chimpanze/taggy-typescript.git
 ```
 
 > [!NOTE]
-> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npm install @chimpanze/taggy-frontend`
+> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npm install @chimpanze/taggy-typescript`
 
 ## Usage
 
@@ -23,7 +23,7 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import Taggy from '@chimpanze/taggy-frontend';
+import Taggy from '@chimpanze/taggy-typescript';
 
 const client = new Taggy({
   taggyDomain: 'My Taggy Domain',
@@ -41,7 +41,7 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import Taggy from '@chimpanze/taggy-frontend';
+import Taggy from '@chimpanze/taggy-typescript';
 
 const client = new Taggy({
   taggyDomain: 'My Taggy Domain',
@@ -64,7 +64,7 @@ Request parameters that correspond to file uploads can be passed in many differe
 
 ```ts
 import fs from 'fs';
-import Taggy, { toFile } from '@chimpanze/taggy-frontend';
+import Taggy, { toFile } from '@chimpanze/taggy-typescript';
 
 const client = new Taggy();
 
@@ -226,7 +226,7 @@ The log level can be configured in two ways:
 2. Using the `logLevel` client option (overrides the environment variable if set)
 
 ```ts
-import Taggy from '@chimpanze/taggy-frontend';
+import Taggy from '@chimpanze/taggy-typescript';
 
 const client = new Taggy({
   logLevel: 'debug', // Show all log messages
@@ -254,7 +254,7 @@ When providing a custom logger, the `logLevel` option still controls which messa
 below the configured level will not be sent to your logger.
 
 ```ts
-import Taggy from '@chimpanze/taggy-frontend';
+import Taggy from '@chimpanze/taggy-typescript';
 import pino from 'pino';
 
 const logger = pino();
@@ -323,7 +323,7 @@ globalThis.fetch = fetch;
 Or pass it to the client:
 
 ```ts
-import Taggy from '@chimpanze/taggy-frontend';
+import Taggy from '@chimpanze/taggy-typescript';
 import fetch from 'my-fetch';
 
 const client = new Taggy({ fetch });
@@ -334,7 +334,7 @@ const client = new Taggy({ fetch });
 If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
 
 ```ts
-import Taggy from '@chimpanze/taggy-frontend';
+import Taggy from '@chimpanze/taggy-typescript';
 
 const client = new Taggy({
   fetchOptions: {
@@ -351,7 +351,7 @@ options to requests:
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
 
 ```ts
-import Taggy from '@chimpanze/taggy-frontend';
+import Taggy from '@chimpanze/taggy-typescript';
 import * as undici from 'undici';
 
 const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
@@ -365,7 +365,7 @@ const client = new Taggy({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
 
 ```ts
-import Taggy from '@chimpanze/taggy-frontend';
+import Taggy from '@chimpanze/taggy-typescript';
 
 const client = new Taggy({
   fetchOptions: {
@@ -377,7 +377,7 @@ const client = new Taggy({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
 
 ```ts
-import Taggy from 'npm:@chimpanze/taggy-frontend';
+import Taggy from 'npm:@chimpanze/taggy-typescript';
 
 const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
 const client = new Taggy({
