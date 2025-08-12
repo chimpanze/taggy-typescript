@@ -5,7 +5,7 @@ import * as TagsAPI from '../tags';
 import * as ContentTagsAPI from './tags';
 import { SuccessResponse, TagAddParams, TagRemoveParams, Tags } from './tags';
 import { APIPromise } from '../../core/api-promise';
-import { MyPageNumberPage, type MyPageNumberPageParams, PagePromise } from '../../core/pagination';
+import { PageNumberTemplate, type PageNumberTemplateParams, PagePromise } from '../../core/pagination';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
@@ -40,8 +40,8 @@ export class Content extends APIResource {
   list(
     query: ContentListParams | null | undefined = {},
     options?: RequestOptions,
-  ): PagePromise<ContentResponsesMyPageNumberPage, ContentResponse> {
-    return this._client.getAPIList('/content', MyPageNumberPage<ContentResponse>, { query, ...options });
+  ): PagePromise<ContentResponsesPageNumberTemplate, ContentResponse> {
+    return this._client.getAPIList('/content', PageNumberTemplate<ContentResponse>, { query, ...options });
   }
 
   /**
@@ -77,7 +77,7 @@ export class Content extends APIResource {
   }
 }
 
-export type ContentResponsesMyPageNumberPage = MyPageNumberPage<ContentResponse>;
+export type ContentResponsesPageNumberTemplate = PageNumberTemplate<ContentResponse>;
 
 export interface ContentResponse {
   id?: number;
@@ -161,7 +161,7 @@ export interface ContentUpdateParams {
   url?: string;
 }
 
-export interface ContentListParams extends MyPageNumberPageParams {
+export interface ContentListParams extends PageNumberTemplateParams {
   /**
    * Filter by collection ID
    */
@@ -213,7 +213,7 @@ export declare namespace Content {
   export {
     type ContentResponse as ContentResponse,
     type ContentImportResponse as ContentImportResponse,
-    type ContentResponsesMyPageNumberPage as ContentResponsesMyPageNumberPage,
+    type ContentResponsesPageNumberTemplate as ContentResponsesPageNumberTemplate,
     type ContentCreateParams as ContentCreateParams,
     type ContentUpdateParams as ContentUpdateParams,
     type ContentListParams as ContentListParams,

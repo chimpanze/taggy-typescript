@@ -9,6 +9,6 @@ export {
   type ContentListParams,
   type ContentBulkOperationsParams,
   type ContentImportParams,
-  type ContentResponsesMyPageNumberPage,
+  type ContentResponsesPageNumberTemplate,
 } from './content';
 export { Tags, type SuccessResponse, type TagAddParams, type TagRemoveParams } from './tags';

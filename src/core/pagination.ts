@@ -107,7 +107,7 @@ export class PagePromise<
   }
 }
 
-export interface MyPageNumberPageResponse<Item> {
+export interface PageNumberTemplateResponse<Item> {
   data: Array<Item>;
 
   page: number;
@@ -119,13 +119,13 @@ export interface MyPageNumberPageResponse<Item> {
   total_pages: number;
 }
 
-export interface MyPageNumberPageParams {
+export interface PageNumberTemplateParams {
   page?: number;
 
   page_size?: number;
 }
 
-export class MyPageNumberPage<Item> extends AbstractPage<Item> implements MyPageNumberPageResponse<Item> {
+export class PageNumberTemplate<Item> extends AbstractPage<Item> implements PageNumberTemplateResponse<Item> {
   data: Array<Item>;
 
   page: number;
@@ -139,7 +139,7 @@ export class MyPageNumberPage<Item> extends AbstractPage<Item> implements MyPage
   constructor(
     client: Taggy,
     response: Response,
-    body: MyPageNumberPageResponse<Item>,
+    body: PageNumberTemplateResponse<Item>,
     options: FinalRequestOptions,
   ) {
     super(client, response, body, options);

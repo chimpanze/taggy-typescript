@@ -33,7 +33,7 @@ export {
   type ContentListParams,
   type ContentBulkOperationsParams,
   type ContentImportParams,
-  type ContentResponsesMyPageNumberPage,
+  type ContentResponsesPageNumberTemplate,
 } from './content/content';
 export {
   Extension,
