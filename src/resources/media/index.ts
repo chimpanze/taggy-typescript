@@ -3,6 +3,7 @@
 export {
   Media,
   type MediaJob,
+  type MediaJobQueued,
   type MediaGetFormatsResponse,
   type MediaFetchParams,
   type MediaFetchAudioParams,

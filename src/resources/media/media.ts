@@ -24,14 +24,14 @@ export class Media extends APIResource {
   /**
    * Fetch video/audio content from various platforms and URLs
    */
-  fetch(body: MediaFetchParams, options?: RequestOptions): APIPromise<MediaJob> {
+  fetch(body: MediaFetchParams, options?: RequestOptions): APIPromise<MediaJobQueued> {
     return this._client.post('/media/fetch', { body, ...options });
   }
 
   /**
    * Extract and fetch audio content from video sources
    */
-  fetchAudio(body: MediaFetchAudioParams, options?: RequestOptions): APIPromise<MediaJob> {
+  fetchAudio(body: MediaFetchAudioParams, options?: RequestOptions): APIPromise<MediaJobQueued> {
     return this._client.post('/media/fetch-audio', { body, ...options });
   }
 
@@ -98,6 +98,17 @@ export interface MediaJob {
   view_count?: number;
 }
 
+export interface MediaJobQueued {
+  content_id?: number;
+
+  job_id?: number;
+
+  /**
+   * always "pending" on creation
+   */
+  status?: string;
+}
+
 export type MediaGetFormatsResponse = Array<MediaGetFormatsResponse.MediaGetFormatsResponseItem>;
 
 export namespace MediaGetFormatsResponse {
@@ -141,6 +152,7 @@ Media.Settings = Settings;
 export declare namespace Media {
   export {
     type MediaJob as MediaJob,
+    type MediaJobQueued as MediaJobQueued,
     type MediaGetFormatsResponse as MediaGetFormatsResponse,
     type MediaFetchParams as MediaFetchParams,
     type MediaFetchAudioParams as MediaFetchAudioParams,

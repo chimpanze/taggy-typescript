@@ -193,13 +193,14 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/media/media.ts">MediaJob</a></code>
+- <code><a href="./src/resources/media/media.ts">MediaJobQueued</a></code>
 - <code><a href="./src/resources/media/media.ts">MediaGetFormatsResponse</a></code>
 
 Methods:
 
 - <code title="delete /media/{id}">client.media.<a href="./src/resources/media/media.ts">delete</a>(id) -> void</code>
-- <code title="post /media/fetch">client.media.<a href="./src/resources/media/media.ts">fetch</a>({ ...params }) -> MediaJob</code>
-- <code title="post /media/fetch-audio">client.media.<a href="./src/resources/media/media.ts">fetchAudio</a>({ ...params }) -> MediaJob</code>
+- <code title="post /media/fetch">client.media.<a href="./src/resources/media/media.ts">fetch</a>({ ...params }) -> MediaJobQueued</code>
+- <code title="post /media/fetch-audio">client.media.<a href="./src/resources/media/media.ts">fetchAudio</a>({ ...params }) -> MediaJobQueued</code>
 - <code title="get /media/fetch-status/{jobId}">client.media.<a href="./src/resources/media/media.ts">fetchStatus</a>(jobID) -> MediaJob</code>
 - <code title="get /media/formats/{url}">client.media.<a href="./src/resources/media/media.ts">getFormats</a>(url) -> MediaGetFormatsResponse</code>
 
