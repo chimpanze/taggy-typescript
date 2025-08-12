@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 (2025-08-12)
+
+Full Changelog: [v0.2.1...v0.3.0](https://github.com/chimpanze/taggy-typescript/compare/v0.2.1...v0.3.0)
+
+### Features
+
+* **api:** update via SDK Studio ([245b6c9](https://github.com/chimpanze/taggy-typescript/commit/245b6c9ca15f8b4faa5c9890f9c5a25b6013fba3))
+
 ## 0.2.1 (2025-08-12)
 
 Full Changelog: [v0.2.0...v0.2.1](https://github.com/chimpanze/taggy-typescript/compare/v0.2.0...v0.2.1)
