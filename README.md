@@ -26,7 +26,7 @@ The full API of this library can be found in [api.md](api.md).
 import Taggy from 'taggy';
 
 const client = new Taggy({
-  baseURL: 'My Base URL',
+  taggyDomain: 'My Taggy Domain',
   bearerToken: process.env['TAGGY_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
@@ -44,7 +44,7 @@ This library includes TypeScript definitions for all request params and response
 import Taggy from 'taggy';
 
 const client = new Taggy({
-  baseURL: 'My Base URL',
+  taggyDomain: 'My Taggy Domain',
   bearerToken: process.env['TAGGY_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
@@ -126,7 +126,7 @@ You can use the `maxRetries` option to configure or disable this:
 ```js
 // Configure the default for all requests:
 const client = new Taggy({
-  baseURL: 'My Base URL',
+  taggyDomain: 'My Taggy Domain',
   maxRetries: 0, // default is 2
 });
 
@@ -144,7 +144,7 @@ Requests time out after 1 minute by default. You can configure this with a `time
 ```ts
 // Configure the default for all requests:
 const client = new Taggy({
-  baseURL: 'My Base URL',
+  taggyDomain: 'My Taggy Domain',
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
