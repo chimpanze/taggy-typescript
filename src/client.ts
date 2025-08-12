@@ -227,7 +227,7 @@ export class Taggy {
    *
    * @param {string | undefined} [opts.bearerToken=process.env['TAGGY_BEARER_TOKEN'] ?? undefined]
    * @param {string | undefined} [opts.baseURL=process.env['TAGGY_BASE_URL'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['TAGGY_BASE_URL'] ?? //{baseURL}/api/v1] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['TAGGY_BASE_URL'] ?? //{base_url}/api/v1] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -256,7 +256,7 @@ export class Taggy {
       bearerToken,
       baseURL,
       ...opts,
-      baseURL: baseURL || `//{baseURL}/api/v1`,
+      baseURL: baseURL || `//{base_url}/api/v1`,
     };
 
     this.baseURL = options.baseURL!;
@@ -304,7 +304,7 @@ export class Taggy {
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== '//{baseURL}/api/v1';
+    return this.baseURL !== '//{base_url}/api/v1';
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {

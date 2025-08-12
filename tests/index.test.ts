@@ -346,13 +346,13 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['TAGGY_BASE_URL'] = ''; // empty
       const client = new Taggy({ bearerToken: 'My Bearer Token', baseURL: 'My Base URL' });
-      expect(client.baseURL).toEqual('//{baseURL}/api/v1');
+      expect(client.baseURL).toEqual('//{base_url}/api/v1');
     });
 
     test('blank env variable', () => {
       process.env['TAGGY_BASE_URL'] = '  '; // blank
       const client = new Taggy({ bearerToken: 'My Bearer Token', baseURL: 'My Base URL' });
-      expect(client.baseURL).toEqual('//{baseURL}/api/v1');
+      expect(client.baseURL).toEqual('//{base_url}/api/v1');
     });
 
     test('in request options', () => {
