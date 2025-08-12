@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "taggy/*": ["dist/src/*"],
-      "taggy": ["dist/src/index.ts"]
+      "@chimpanze/taggy-frontend/*": ["dist/src/*"],
+      "@chimpanze/taggy-frontend": ["dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,

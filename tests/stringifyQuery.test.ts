@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Taggy } from 'taggy';
+import { Taggy } from '@chimpanze/taggy-frontend';
 
 const { stringifyQuery } = Taggy.prototype as any;
 
