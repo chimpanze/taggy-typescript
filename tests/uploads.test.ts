@@ -1,6 +1,6 @@
 import fs from 'fs';
-import type { ResponseLike } from 'taggy/internal/to-file';
-import { toFile } from 'taggy/core/uploads';
+import type { ResponseLike } from '@chimpanze/taggy-frontend/internal/to-file';
+import { toFile } from '@chimpanze/taggy-frontend/core/uploads';
 import { File } from 'node:buffer';
 
 class MyClass {
@@ -97,7 +97,7 @@ describe('missing File error message', () => {
   });
 
   test('is thrown', async () => {
-    const uploads = await import('taggy/core/uploads');
+    const uploads = await import('@chimpanze/taggy-frontend/core/uploads');
     await expect(
       uploads.toFile(mockResponse({ url: 'https://example.com/my/audio.mp3' })),
     ).rejects.toMatchInlineSnapshot(

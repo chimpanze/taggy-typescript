@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from 'taggy/internal/uploads';
-import { toFile } from 'taggy/core/uploads';
+import { multipartFormRequestOptions, createForm } from '@chimpanze/taggy-frontend/internal/uploads';
+import { toFile } from '@chimpanze/taggy-frontend/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {
