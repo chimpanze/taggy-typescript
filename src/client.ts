@@ -105,11 +105,10 @@ import { Likes } from './resources/likes/likes';
 import {
   Media,
   MediaFetchAudioParams,
-  MediaFetchAudioResponse,
   MediaFetchParams,
-  MediaFetchResponse,
   MediaGetFormatsResponse,
   MediaJob,
+  MediaJobQueued,
 } from './resources/media/media';
 import { Sharing, SharingAccessPublicCollectionResponse } from './resources/sharing/sharing';
 import { type Fetch } from './internal/builtin-types';
@@ -946,8 +945,7 @@ export declare namespace Taggy {
   export {
     Media as Media,
     type MediaJob as MediaJob,
-    type MediaFetchResponse as MediaFetchResponse,
-    type MediaFetchAudioResponse as MediaFetchAudioResponse,
+    type MediaJobQueued as MediaJobQueued,
     type MediaGetFormatsResponse as MediaGetFormatsResponse,
     type MediaFetchParams as MediaFetchParams,
     type MediaFetchAudioParams as MediaFetchAudioParams,
