@@ -4,7 +4,7 @@
 
 This library provides convenient access to the Taggy REST API from server-side TypeScript or JavaScript.
 
-The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [www.swagger.io](http://www.swagger.io/support). The full API of this library can be found in [api.md](api.md).
 
 It is generated with [Stainless](https://www.stainless.com/).
 
@@ -26,12 +26,12 @@ The full API of this library can be found in [api.md](api.md).
 import Taggy from 'taggy';
 
 const client = new Taggy({
-  apiKey: process.env['PETSTORE_API_KEY'], // This is the default and can be omitted
+  bearerToken: process.env['TAGGY_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
-const order = await client.store.orders.create({ petId: 1, quantity: 1, status: 'placed' });
+const tagSuggestions = await client.ai.analyze();
 
-console.log(order.id);
+console.log(tagSuggestions.content_id);
 ```
 
 ### Request & Response types
@@ -43,13 +43,42 @@ This library includes TypeScript definitions for all request params and response
 import Taggy from 'taggy';
 
 const client = new Taggy({
-  apiKey: process.env['PETSTORE_API_KEY'], // This is the default and can be omitted
+  bearerToken: process.env['TAGGY_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
-const response: Taggy.StoreListInventoryResponse = await client.store.listInventory();
+const tagSuggestions: Taggy.TagSuggestions = await client.ai.analyze();
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
+
+## File uploads
+
+Request parameters that correspond to file uploads can be passed in many different forms:
+
+- `File` (or an object with the same structure)
+- a `fetch` `Response` (or an object with the same structure)
+- an `fs.ReadStream`
+- the return value of our `toFile` helper
+
+```ts
+import fs from 'fs';
+import Taggy, { toFile } from 'taggy';
+
+const client = new Taggy();
+
+// If you have access to Node `fs` we recommend using `fs.createReadStream()`:
+await client.files.upload({ file: fs.createReadStream('/path/to/file') });
+
+// Or if you have the web `File` API you can pass a `File` instance:
+await client.files.upload({ file: new File(['my bytes'], 'file') });
+
+// You can also pass a `fetch` `Response`:
+await client.files.upload({ file: await fetch('https://somesite/file') });
+
+// Finally, if none of the above are convenient, you can use our `toFile` helper:
+await client.files.upload({ file: await toFile(Buffer.from('my bytes'), 'file') });
+await client.files.upload({ file: await toFile(new Uint8Array([0, 1, 2]), 'file') });
+```
 
 ## Handling errors
 
@@ -59,7 +88,7 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const response = await client.store.listInventory().catch(async (err) => {
+const tagSuggestions = await client.ai.analyze().catch(async (err) => {
   if (err instanceof Taggy.APIError) {
     console.log(err.status); // 400
     console.log(err.name); // BadRequestError
@@ -99,7 +128,7 @@ const client = new Taggy({
 });
 
 // Or, configure per-request:
-await client.store.listInventory({
+await client.ai.analyze({
   maxRetries: 5,
 });
 ```
@@ -116,7 +145,7 @@ const client = new Taggy({
 });
 
 // Override per-request:
-await client.store.listInventory({
+await client.ai.analyze({
   timeout: 5 * 1000,
 });
 ```
@@ -139,13 +168,13 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new Taggy();
 
-const response = await client.store.listInventory().asResponse();
+const response = await client.ai.analyze().asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.store.listInventory().withResponse();
+const { data: tagSuggestions, response: raw } = await client.ai.analyze().withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(response);
+console.log(tagSuggestions.content_id);
 ```
 
 ### Logging
@@ -225,7 +254,7 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.store.orders.create({
+client.ai.analyze({
   // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
