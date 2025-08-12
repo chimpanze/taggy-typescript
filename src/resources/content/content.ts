@@ -5,6 +5,7 @@ import * as TagsAPI from '../tags';
 import * as ContentTagsAPI from './tags';
 import { SuccessResponse, TagAddParams, TagRemoveParams, Tags } from './tags';
 import { APIPromise } from '../../core/api-promise';
+import { MyPageNumberPage, type MyPageNumberPageParams, PagePromise } from '../../core/pagination';
 import { buildHeaders } from '../../internal/headers';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
@@ -39,8 +40,8 @@ export class Content extends APIResource {
   list(
     query: ContentListParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<ContentListResponse> {
-    return this._client.get('/content', { query, ...options });
+  ): PagePromise<ContentResponsesMyPageNumberPage, ContentResponse> {
+    return this._client.getAPIList('/content', MyPageNumberPage<ContentResponse>, { query, ...options });
   }
 
   /**
@@ -75,6 +76,8 @@ export class Content extends APIResource {
     return this._client.post('/content/import', { body, ...options });
   }
 }
+
+export type ContentResponsesMyPageNumberPage = MyPageNumberPage<ContentResponse>;
 
 export interface ContentResponse {
   id?: number;
@@ -118,18 +121,6 @@ export namespace ContentResponse {
   }
 }
 
-export interface ContentListResponse {
-  data?: Array<ContentResponse>;
-
-  page?: number;
-
-  page_size?: number;
-
-  total?: number;
-
-  total_pages?: number;
-}
-
 export interface ContentImportResponse {
   duplicates?: number;
 
@@ -170,21 +161,11 @@ export interface ContentUpdateParams {
   url?: string;
 }
 
-export interface ContentListParams {
+export interface ContentListParams extends MyPageNumberPageParams {
   /**
    * Filter by collection ID
    */
   collection_id?: number;
-
-  /**
-   * Page number (default: 1)
-   */
-  page?: number;
-
-  /**
-   * Page size (default: 20)
-   */
-  page_size?: number;
 
   /**
    * Search query
@@ -231,8 +212,8 @@ Content.Tags = Tags;
 export declare namespace Content {
   export {
     type ContentResponse as ContentResponse,
-    type ContentListResponse as ContentListResponse,
     type ContentImportResponse as ContentImportResponse,
+    type ContentResponsesMyPageNumberPage as ContentResponsesMyPageNumberPage,
     type ContentCreateParams as ContentCreateParams,
     type ContentUpdateParams as ContentUpdateParams,
     type ContentListParams as ContentListParams,
