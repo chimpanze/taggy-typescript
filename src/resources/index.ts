@@ -64,6 +64,8 @@ export { Likes } from './likes/likes';
 export {
   Media,
   type MediaJob,
+  type MediaFetchResponse,
+  type MediaFetchAudioResponse,
   type MediaGetFormatsResponse,
   type MediaFetchParams,
   type MediaFetchAudioParams,
