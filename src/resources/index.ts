@@ -1,27 +1,94 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export * from './shared';
 export {
-  Pets,
-  type Category,
-  type Pet,
-  type PetFindByStatusResponse,
-  type PetFindByTagsResponse,
-  type PetUploadImageResponse,
-  type PetCreateParams,
-  type PetUpdateParams,
-  type PetFindByStatusParams,
-  type PetFindByTagsParams,
-  type PetUpdateByIDParams,
-  type PetUploadImageParams,
-} from './pets';
-export { Store, type StoreListInventoryResponse } from './store/store';
+  AI,
+  type TagSuggestion,
+  type TagSuggestions,
+  type AIListModelsResponse,
+  type AITrainModelResponse,
+  type AIAnalyzeParams,
+} from './ai/ai';
+export { Archive, type ArchiveResponse, type ArchiveCreateParams } from './archive';
 export {
-  Users,
-  type User,
-  type UserLoginResponse,
-  type UserCreateParams,
-  type UserUpdateParams,
-  type UserCreateWithListParams,
-  type UserLoginParams,
-} from './users';
+  Auth,
+  type AuthRetrieveUserResponse,
+  type AuthValidateTokenResponse,
+  type AuthValidateTokenParams,
+} from './auth';
+export {
+  Collections,
+  type CollectionResponse,
+  type CollectionListResponse,
+  type CollectionCreateParams,
+  type CollectionUpdateParams,
+  type CollectionListParams,
+} from './collections/collections';
+export { Comments } from './comments/comments';
+export {
+  Content,
+  type ContentResponse,
+  type ContentListResponse,
+  type ContentImportResponse,
+  type ContentCreateParams,
+  type ContentUpdateParams,
+  type ContentListParams,
+  type ContentBulkOperationsParams,
+  type ContentImportParams,
+} from './content/content';
+export {
+  Extension,
+  type ExtensionResponse,
+  type ExtensionCheckMediaJobProgressResponse,
+  type ExtensionQuickTagContentResponse,
+  type ExtensionRetrieveAISuggestionsResponse,
+  type ExtensionRetrieveUserTagsResponse,
+  type ExtensionArchiveCurrentPageParams,
+  type ExtensionQuickTagContentParams,
+  type ExtensionRetrieveUserTagsParams,
+  type ExtensionSaveBookmarkParams,
+  type ExtensionSaveFileParams,
+  type ExtensionSaveImageParams,
+  type ExtensionSaveTextParams,
+  type ExtensionSaveVideoParams,
+} from './extension';
+export {
+  Files,
+  type PresignedURL,
+  type FileUploadResponse,
+  type FileGeneratePresignedURLParams,
+  type FileGetViewPresignedURLParams,
+  type FileUploadParams,
+} from './files';
+export { Health, type HealthCheckResponse } from './health';
+export { Likes } from './likes/likes';
+export {
+  Media,
+  type MediaJob,
+  type MediaGetFormatsResponse,
+  type MediaFetchParams,
+  type MediaFetchAudioParams,
+} from './media/media';
+export { Ready, type ReadyCheckResponse } from './ready';
+export {
+  Search,
+  type SearchResult,
+  type SearchRetrieveResponse,
+  type SearchGetSuggestionsResponse,
+  type SearchListRecentResponse,
+  type SearchListTrendingResponse,
+  type SearchRetrieveParams,
+  type SearchGetSuggestionsParams,
+  type SearchListRecentParams,
+  type SearchListTrendingParams,
+} from './search';
+export { Sharing, type SharingAccessPublicCollectionResponse } from './sharing/sharing';
+export {
+  Tags,
+  type Tag,
+  type TagListResponse,
+  type TagGetSuggestionsResponse,
+  type TagCreateParams,
+  type TagUpdateParams,
+  type TagListParams,
+  type TagGetSuggestionsParams,
+} from './tags';

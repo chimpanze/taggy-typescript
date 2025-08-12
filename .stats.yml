@@ -1,4 +1,4 @@
-configured_endpoints: 19
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/mg-web%2Ftaggy-6937085190e3e5553f943ff22deda900cd8ad4bf5e37278cba7de683b78ae8d2.yml
-openapi_spec_hash: 85dc5d1e011be6539c240594f06f284b
-config_hash: 42ec2a6c098243f9578e7e10a1e20b35
+configured_endpoints: 80
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/mg-web%2Ftaggy-0c4ba17c75d4b8591aa8e707c0dd0d2f3ec95b9b04388ab44f35901769827a6a.yml
+openapi_spec_hash: d98ab7b98112ec3c805a3d4864ce7721
+config_hash: 8961bdf9db1e6cea684b9f937de5375d

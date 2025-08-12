@@ -11,36 +11,105 @@ import type { APIResponseProps } from './internal/parse';
 import { getPlatformHeaders } from './internal/detect-platform';
 import * as Shims from './internal/shims';
 import * as Opts from './internal/request-options';
-import * as qs from './internal/qs';
 import { VERSION } from './version';
 import * as Errors from './core/error';
+import * as Pagination from './core/pagination';
+import { AbstractPage, type MyPageNumberPageParams, MyPageNumberPageResponse } from './core/pagination';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
+import { Archive, ArchiveCreateParams, ArchiveResponse } from './resources/archive';
 import {
-  Category,
-  Pet,
-  PetCreateParams,
-  PetFindByStatusParams,
-  PetFindByStatusResponse,
-  PetFindByTagsParams,
-  PetFindByTagsResponse,
-  PetUpdateByIDParams,
-  PetUpdateParams,
-  PetUploadImageParams,
-  PetUploadImageResponse,
-  Pets,
-} from './resources/pets';
+  Auth,
+  AuthRetrieveUserResponse,
+  AuthValidateTokenParams,
+  AuthValidateTokenResponse,
+} from './resources/auth';
 import {
-  User,
-  UserCreateParams,
-  UserCreateWithListParams,
-  UserLoginParams,
-  UserLoginResponse,
-  UserUpdateParams,
-  Users,
-} from './resources/users';
-import { Store, StoreListInventoryResponse } from './resources/store/store';
+  Extension,
+  ExtensionArchiveCurrentPageParams,
+  ExtensionCheckMediaJobProgressResponse,
+  ExtensionQuickTagContentParams,
+  ExtensionQuickTagContentResponse,
+  ExtensionResponse,
+  ExtensionRetrieveAISuggestionsResponse,
+  ExtensionRetrieveUserTagsParams,
+  ExtensionRetrieveUserTagsResponse,
+  ExtensionSaveBookmarkParams,
+  ExtensionSaveFileParams,
+  ExtensionSaveImageParams,
+  ExtensionSaveTextParams,
+  ExtensionSaveVideoParams,
+} from './resources/extension';
+import {
+  FileGeneratePresignedURLParams,
+  FileGetViewPresignedURLParams,
+  FileUploadParams,
+  FileUploadResponse,
+  Files,
+  PresignedURL,
+} from './resources/files';
+import { Health, HealthCheckResponse } from './resources/health';
+import { Ready, ReadyCheckResponse } from './resources/ready';
+import {
+  Search,
+  SearchGetSuggestionsParams,
+  SearchGetSuggestionsResponse,
+  SearchListRecentParams,
+  SearchListRecentResponse,
+  SearchListTrendingParams,
+  SearchListTrendingResponse,
+  SearchResult,
+  SearchRetrieveParams,
+  SearchRetrieveResponse,
+} from './resources/search';
+import {
+  Tag,
+  TagCreateParams,
+  TagGetSuggestionsParams,
+  TagGetSuggestionsResponse,
+  TagListParams,
+  TagListResponse,
+  TagUpdateParams,
+  Tags,
+} from './resources/tags';
+import {
+  AI,
+  AIAnalyzeParams,
+  AIListModelsResponse,
+  AITrainModelResponse,
+  TagSuggestion,
+  TagSuggestions,
+} from './resources/ai/ai';
+import {
+  CollectionCreateParams,
+  CollectionListParams,
+  CollectionListResponse,
+  CollectionResponse,
+  CollectionUpdateParams,
+  Collections,
+} from './resources/collections/collections';
+import { Comments } from './resources/comments/comments';
+import {
+  Content,
+  ContentBulkOperationsParams,
+  ContentCreateParams,
+  ContentImportParams,
+  ContentImportResponse,
+  ContentListParams,
+  ContentListResponse,
+  ContentResponse,
+  ContentUpdateParams,
+} from './resources/content/content';
+import { Likes } from './resources/likes/likes';
+import {
+  Media,
+  MediaFetchAudioParams,
+  MediaFetchParams,
+  MediaGetFormatsResponse,
+  MediaJob,
+} from './resources/media/media';
+import { Sharing, SharingAccessPublicCollectionResponse } from './resources/sharing/sharing';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -56,9 +125,9 @@ import { isEmptyObj } from './internal/utils/values';
 
 export interface ClientOptions {
   /**
-   * Defaults to process.env['PETSTORE_API_KEY'].
+   * Type "Bearer" followed by a space and JWT token.
    */
-  apiKey?: string | undefined;
+  bearerToken?: string | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -133,7 +202,7 @@ export interface ClientOptions {
  * API Client for interfacing with the Taggy API.
  */
 export class Taggy {
-  apiKey: string;
+  bearerToken: string;
 
   baseURL: string;
   maxRetries: number;
@@ -150,8 +219,8 @@ export class Taggy {
   /**
    * API Client for interfacing with the Taggy API.
    *
-   * @param {string | undefined} [opts.apiKey=process.env['PETSTORE_API_KEY'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['TAGGY_BASE_URL'] ?? https://petstore3.swagger.io/api/v3] - Override the default base URL for the API.
+   * @param {string | undefined} [opts.bearerToken=process.env['TAGGY_BEARER_TOKEN'] ?? undefined]
+   * @param {string} [opts.baseURL=process.env['TAGGY_BASE_URL'] ?? //localhost:8080/api/v1] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -161,19 +230,19 @@ export class Taggy {
    */
   constructor({
     baseURL = readEnv('TAGGY_BASE_URL'),
-    apiKey = readEnv('PETSTORE_API_KEY'),
+    bearerToken = readEnv('TAGGY_BEARER_TOKEN'),
     ...opts
   }: ClientOptions = {}) {
-    if (apiKey === undefined) {
+    if (bearerToken === undefined) {
       throw new Errors.TaggyError(
-        "The PETSTORE_API_KEY environment variable is missing or empty; either provide it, or instantiate the Taggy client with an apiKey option, like new Taggy({ apiKey: 'My API Key' }).",
+        "The TAGGY_BEARER_TOKEN environment variable is missing or empty; either provide it, or instantiate the Taggy client with an bearerToken option, like new Taggy({ bearerToken: 'My Bearer Token' }).",
       );
     }
 
     const options: ClientOptions = {
-      apiKey,
+      bearerToken,
       ...opts,
-      baseURL: baseURL || `https://petstore3.swagger.io/api/v3`,
+      baseURL: baseURL || `//localhost:8080/api/v1`,
     };
 
     this.baseURL = options.baseURL!;
@@ -193,7 +262,7 @@ export class Taggy {
 
     this._options = options;
 
-    this.apiKey = apiKey;
+    this.bearerToken = bearerToken;
   }
 
   /**
@@ -209,7 +278,7 @@ export class Taggy {
       logLevel: this.logLevel,
       fetch: this.fetch,
       fetchOptions: this.fetchOptions,
-      apiKey: this.apiKey,
+      bearerToken: this.bearerToken,
       ...options,
     });
     return client;
@@ -219,7 +288,7 @@ export class Taggy {
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== 'https://petstore3.swagger.io/api/v3';
+    return this.baseURL !== '//localhost:8080/api/v1';
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -231,11 +300,27 @@ export class Taggy {
   }
 
   protected async authHeaders(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
-    return buildHeaders([{ api_key: this.apiKey }]);
+    return buildHeaders([{ Authorization: this.bearerToken }]);
   }
 
+  /**
+   * Basic re-implementation of `qs.stringify` for primitive types.
+   */
   protected stringifyQuery(query: Record<string, unknown>): string {
-    return qs.stringify(query, { arrayFormat: 'comma' });
+    return Object.entries(query)
+      .filter(([_, value]) => typeof value !== 'undefined')
+      .map(([key, value]) => {
+        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+        }
+        if (value === null) {
+          return `${encodeURIComponent(key)}=`;
+        }
+        throw new Errors.TaggyError(
+          `Cannot stringify type ${typeof value}; Expected string, number, boolean, or null. If you need to pass nested query parameters, you can manually encode them, e.g. { query: { 'foo[key1]': value1, 'foo[key2]': value2 } }, and please open a GitHub issue requesting better support for your use case.`,
+        );
+      })
+      .join('&');
   }
 
   private getUserAgent(): string {
@@ -490,6 +575,25 @@ export class Taggy {
     return { response, options, controller, requestLogID, retryOfRequestLogID, startTime };
   }
 
+  getAPIList<Item, PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>>(
+    path: string,
+    Page: new (...args: any[]) => PageClass,
+    opts?: RequestOptions,
+  ): Pagination.PagePromise<PageClass, Item> {
+    return this.requestAPIList(Page, { method: 'get', path, ...opts });
+  }
+
+  requestAPIList<
+    Item = unknown,
+    PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>,
+  >(
+    Page: new (...args: ConstructorParameters<typeof Pagination.AbstractPage>) => PageClass,
+    options: FinalRequestOptions,
+  ): Pagination.PagePromise<PageClass, Item> {
+    const request = this.makeRequest(options, null, undefined);
+    return new Pagination.PagePromise<PageClass, Item>(this as any as Taggy, request, Page);
+  }
+
   async fetchWithTimeout(
     url: RequestInfo,
     init: RequestInit | undefined,
@@ -722,42 +826,157 @@ export class Taggy {
 
   static toFile = Uploads.toFile;
 
-  pets: API.Pets = new API.Pets(this);
-  store: API.Store = new API.Store(this);
-  users: API.Users = new API.Users(this);
+  ai: API.AI = new API.AI(this);
+  archive: API.Archive = new API.Archive(this);
+  auth: API.Auth = new API.Auth(this);
+  collections: API.Collections = new API.Collections(this);
+  comments: API.Comments = new API.Comments(this);
+  content: API.Content = new API.Content(this);
+  extension: API.Extension = new API.Extension(this);
+  files: API.Files = new API.Files(this);
+  health: API.Health = new API.Health(this);
+  likes: API.Likes = new API.Likes(this);
+  media: API.Media = new API.Media(this);
+  ready: API.Ready = new API.Ready(this);
+  search: API.Search = new API.Search(this);
+  sharing: API.Sharing = new API.Sharing(this);
+  tags: API.Tags = new API.Tags(this);
 }
-Taggy.Pets = Pets;
-Taggy.Store = Store;
-Taggy.Users = Users;
+Taggy.AI = AI;
+Taggy.Archive = Archive;
+Taggy.Auth = Auth;
+Taggy.Collections = Collections;
+Taggy.Comments = Comments;
+Taggy.Content = Content;
+Taggy.Extension = Extension;
+Taggy.Files = Files;
+Taggy.Health = Health;
+Taggy.Likes = Likes;
+Taggy.Media = Media;
+Taggy.Ready = Ready;
+Taggy.Search = Search;
+Taggy.Sharing = Sharing;
+Taggy.Tags = Tags;
 export declare namespace Taggy {
   export type RequestOptions = Opts.RequestOptions;
 
+  export import MyPageNumberPage = Pagination.MyPageNumberPage;
   export {
-    Pets as Pets,
-    type Category as Category,
-    type Pet as Pet,
-    type PetFindByStatusResponse as PetFindByStatusResponse,
-    type PetFindByTagsResponse as PetFindByTagsResponse,
-    type PetUploadImageResponse as PetUploadImageResponse,
-    type PetCreateParams as PetCreateParams,
-    type PetUpdateParams as PetUpdateParams,
-    type PetFindByStatusParams as PetFindByStatusParams,
-    type PetFindByTagsParams as PetFindByTagsParams,
-    type PetUpdateByIDParams as PetUpdateByIDParams,
-    type PetUploadImageParams as PetUploadImageParams,
+    type MyPageNumberPageParams as MyPageNumberPageParams,
+    type MyPageNumberPageResponse as MyPageNumberPageResponse,
   };
 
-  export { Store as Store, type StoreListInventoryResponse as StoreListInventoryResponse };
-
   export {
-    Users as Users,
-    type User as User,
-    type UserLoginResponse as UserLoginResponse,
-    type UserCreateParams as UserCreateParams,
-    type UserUpdateParams as UserUpdateParams,
-    type UserCreateWithListParams as UserCreateWithListParams,
-    type UserLoginParams as UserLoginParams,
+    AI as AI,
+    type TagSuggestion as TagSuggestion,
+    type TagSuggestions as TagSuggestions,
+    type AIListModelsResponse as AIListModelsResponse,
+    type AITrainModelResponse as AITrainModelResponse,
+    type AIAnalyzeParams as AIAnalyzeParams,
   };
 
-  export type Order = API.Order;
+  export {
+    Archive as Archive,
+    type ArchiveResponse as ArchiveResponse,
+    type ArchiveCreateParams as ArchiveCreateParams,
+  };
+
+  export {
+    Auth as Auth,
+    type AuthRetrieveUserResponse as AuthRetrieveUserResponse,
+    type AuthValidateTokenResponse as AuthValidateTokenResponse,
+    type AuthValidateTokenParams as AuthValidateTokenParams,
+  };
+
+  export {
+    Collections as Collections,
+    type CollectionResponse as CollectionResponse,
+    type CollectionListResponse as CollectionListResponse,
+    type CollectionCreateParams as CollectionCreateParams,
+    type CollectionUpdateParams as CollectionUpdateParams,
+    type CollectionListParams as CollectionListParams,
+  };
+
+  export { Comments as Comments };
+
+  export {
+    Content as Content,
+    type ContentResponse as ContentResponse,
+    type ContentListResponse as ContentListResponse,
+    type ContentImportResponse as ContentImportResponse,
+    type ContentCreateParams as ContentCreateParams,
+    type ContentUpdateParams as ContentUpdateParams,
+    type ContentListParams as ContentListParams,
+    type ContentBulkOperationsParams as ContentBulkOperationsParams,
+    type ContentImportParams as ContentImportParams,
+  };
+
+  export {
+    Extension as Extension,
+    type ExtensionResponse as ExtensionResponse,
+    type ExtensionCheckMediaJobProgressResponse as ExtensionCheckMediaJobProgressResponse,
+    type ExtensionQuickTagContentResponse as ExtensionQuickTagContentResponse,
+    type ExtensionRetrieveAISuggestionsResponse as ExtensionRetrieveAISuggestionsResponse,
+    type ExtensionRetrieveUserTagsResponse as ExtensionRetrieveUserTagsResponse,
+    type ExtensionArchiveCurrentPageParams as ExtensionArchiveCurrentPageParams,
+    type ExtensionQuickTagContentParams as ExtensionQuickTagContentParams,
+    type ExtensionRetrieveUserTagsParams as ExtensionRetrieveUserTagsParams,
+    type ExtensionSaveBookmarkParams as ExtensionSaveBookmarkParams,
+    type ExtensionSaveFileParams as ExtensionSaveFileParams,
+    type ExtensionSaveImageParams as ExtensionSaveImageParams,
+    type ExtensionSaveTextParams as ExtensionSaveTextParams,
+    type ExtensionSaveVideoParams as ExtensionSaveVideoParams,
+  };
+
+  export {
+    Files as Files,
+    type PresignedURL as PresignedURL,
+    type FileUploadResponse as FileUploadResponse,
+    type FileGeneratePresignedURLParams as FileGeneratePresignedURLParams,
+    type FileGetViewPresignedURLParams as FileGetViewPresignedURLParams,
+    type FileUploadParams as FileUploadParams,
+  };
+
+  export { Health as Health, type HealthCheckResponse as HealthCheckResponse };
+
+  export { Likes as Likes };
+
+  export {
+    Media as Media,
+    type MediaJob as MediaJob,
+    type MediaGetFormatsResponse as MediaGetFormatsResponse,
+    type MediaFetchParams as MediaFetchParams,
+    type MediaFetchAudioParams as MediaFetchAudioParams,
+  };
+
+  export { Ready as Ready, type ReadyCheckResponse as ReadyCheckResponse };
+
+  export {
+    Search as Search,
+    type SearchResult as SearchResult,
+    type SearchRetrieveResponse as SearchRetrieveResponse,
+    type SearchGetSuggestionsResponse as SearchGetSuggestionsResponse,
+    type SearchListRecentResponse as SearchListRecentResponse,
+    type SearchListTrendingResponse as SearchListTrendingResponse,
+    type SearchRetrieveParams as SearchRetrieveParams,
+    type SearchGetSuggestionsParams as SearchGetSuggestionsParams,
+    type SearchListRecentParams as SearchListRecentParams,
+    type SearchListTrendingParams as SearchListTrendingParams,
+  };
+
+  export {
+    Sharing as Sharing,
+    type SharingAccessPublicCollectionResponse as SharingAccessPublicCollectionResponse,
+  };
+
+  export {
+    Tags as Tags,
+    type Tag as Tag,
+    type TagListResponse as TagListResponse,
+    type TagGetSuggestionsResponse as TagGetSuggestionsResponse,
+    type TagCreateParams as TagCreateParams,
+    type TagUpdateParams as TagUpdateParams,
+    type TagListParams as TagListParams,
+    type TagGetSuggestionsParams as TagGetSuggestionsParams,
+  };
 }
