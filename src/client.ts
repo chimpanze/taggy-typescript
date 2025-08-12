@@ -14,7 +14,7 @@ import * as Opts from './internal/request-options';
 import { VERSION } from './version';
 import * as Errors from './core/error';
 import * as Pagination from './core/pagination';
-import { AbstractPage, type MyPageNumberPageParams, MyPageNumberPageResponse } from './core/pagination';
+import { AbstractPage, type PageNumberTemplateParams, PageNumberTemplateResponse } from './core/pagination';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
@@ -98,7 +98,7 @@ import {
   ContentImportResponse,
   ContentListParams,
   ContentResponse,
-  ContentResponsesMyPageNumberPage,
+  ContentResponsesPageNumberTemplate,
   ContentUpdateParams,
 } from './resources/content/content';
 import { Likes } from './resources/likes/likes';
@@ -860,10 +860,10 @@ Taggy.Tags = Tags;
 export declare namespace Taggy {
   export type RequestOptions = Opts.RequestOptions;
 
-  export import MyPageNumberPage = Pagination.MyPageNumberPage;
+  export import PageNumberTemplate = Pagination.PageNumberTemplate;
   export {
-    type MyPageNumberPageParams as MyPageNumberPageParams,
-    type MyPageNumberPageResponse as MyPageNumberPageResponse,
+    type PageNumberTemplateParams as PageNumberTemplateParams,
+    type PageNumberTemplateResponse as PageNumberTemplateResponse,
   };
 
   export {
@@ -903,7 +903,7 @@ export declare namespace Taggy {
     Content as Content,
     type ContentResponse as ContentResponse,
     type ContentImportResponse as ContentImportResponse,
-    type ContentResponsesMyPageNumberPage as ContentResponsesMyPageNumberPage,
+    type ContentResponsesPageNumberTemplate as ContentResponsesPageNumberTemplate,
     type ContentCreateParams as ContentCreateParams,
     type ContentUpdateParams as ContentUpdateParams,
     type ContentListParams as ContentListParams,

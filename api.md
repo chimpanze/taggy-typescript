@@ -104,7 +104,7 @@ Methods:
 - <code title="post /content">client.content.<a href="./src/resources/content/content.ts">create</a>({ ...params }) -> ContentResponse</code>
 - <code title="get /content/{id}">client.content.<a href="./src/resources/content/content.ts">retrieve</a>(id) -> ContentResponse</code>
 - <code title="put /content/{id}">client.content.<a href="./src/resources/content/content.ts">update</a>(id, { ...params }) -> ContentResponse</code>
-- <code title="get /content">client.content.<a href="./src/resources/content/content.ts">list</a>({ ...params }) -> ContentResponsesMyPageNumberPage</code>
+- <code title="get /content">client.content.<a href="./src/resources/content/content.ts">list</a>({ ...params }) -> ContentResponsesPageNumberTemplate</code>
 - <code title="delete /content/{id}">client.content.<a href="./src/resources/content/content.ts">delete</a>(id) -> void</code>
 - <code title="post /content/bulk">client.content.<a href="./src/resources/content/content.ts">bulkOperations</a>({ ...params }) -> SuccessResponse</code>
 - <code title="post /content/import">client.content.<a href="./src/resources/content/content.ts">import</a>({ ...params }) -> ContentImportResponse</code>
