@@ -112,7 +112,11 @@ export interface MyPageNumberPageResponse<Item> {
 
   page: number;
 
-  last_page: number;
+  page_size: number;
+
+  total: number;
+
+  total_pages: number;
 }
 
 export interface MyPageNumberPageParams {
@@ -126,7 +130,11 @@ export class MyPageNumberPage<Item> extends AbstractPage<Item> implements MyPage
 
   page: number;
 
-  last_page: number;
+  page_size: number;
+
+  total: number;
+
+  total_pages: number;
 
   constructor(
     client: Taggy,
@@ -138,7 +146,9 @@ export class MyPageNumberPage<Item> extends AbstractPage<Item> implements MyPage
 
     this.data = body.data || [];
     this.page = body.page || 0.0;
-    this.last_page = body.last_page || 0.0;
+    this.page_size = body.page_size || 0.0;
+    this.total = body.total || 0.0;
+    this.total_pages = body.total_pages || 0.0;
   }
 
   getPaginatedItems(): Item[] {
@@ -148,7 +158,7 @@ export class MyPageNumberPage<Item> extends AbstractPage<Item> implements MyPage
   nextPageRequestOptions(): PageRequestOptions | null {
     const currentPage = this.page;
 
-    if (currentPage >= this.last_page) {
+    if (currentPage >= this.total_pages) {
       return null;
     }
 
