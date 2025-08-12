@@ -1,12 +1,12 @@
 {
   "name": "taggy",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "The official TypeScript library for the Taggy API",
   "author": "Taggy <support@swagger.io>",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "type": "commonjs",
-  "repository": "github:stainless-sdks/taggy-typescript",
+  "repository": "github:chimpanze/taggy-typescript",
   "license": "MIT",
   "packageManager": "yarn@1.22.22",
   "files": [

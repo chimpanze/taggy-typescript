@@ -1,0 +1,23 @@
+# Changelog
+
+## 0.1.0 (2025-08-12)
+
+Full Changelog: [v0.0.1...v0.1.0](https://github.com/chimpanze/taggy-typescript/compare/v0.0.1...v0.1.0)
+
+### Features
+
+* **api:** update via SDK Studio ([da79f38](https://github.com/chimpanze/taggy-typescript/commit/da79f386cb7becc5a6ad2177de9d20c3fe44daff))
+* **api:** update via SDK Studio ([78b80eb](https://github.com/chimpanze/taggy-typescript/commit/78b80eb2dc38c33cbc312720d74436037c1bf437))
+* **api:** update via SDK Studio ([5b0e8c7](https://github.com/chimpanze/taggy-typescript/commit/5b0e8c7e953d8a09c22984042786a39456d335bd))
+* **api:** update via SDK Studio ([f90ebe6](https://github.com/chimpanze/taggy-typescript/commit/f90ebe644c39ab383f7ab1734ac14c9a9ede12b0))
+* **api:** update via SDK Studio ([c2b42ce](https://github.com/chimpanze/taggy-typescript/commit/c2b42ce4f6a434b9e246fad80f2f782ea4294b51))
+* **api:** update via SDK Studio ([a5feb90](https://github.com/chimpanze/taggy-typescript/commit/a5feb90e7559a4b0c05bf17902af872192054070))
+* **api:** update via SDK Studio ([a2da7cc](https://github.com/chimpanze/taggy-typescript/commit/a2da7ccb9e1f767f7b4965b59260310bd2cb698b))
+* **api:** update via SDK Studio ([392cb9c](https://github.com/chimpanze/taggy-typescript/commit/392cb9c82d23f02d521116c7e10150e40b85aa2b))
+* **api:** update via SDK Studio ([51397b0](https://github.com/chimpanze/taggy-typescript/commit/51397b0f5a60e9ab45f30da94209c10c4adcc197))
+* **api:** update via SDK Studio ([546dfa3](https://github.com/chimpanze/taggy-typescript/commit/546dfa352b779a70c2667f2e03bc70a0320e2428))
+
+
+### Chores
+
+* update SDK settings ([2c7fa31](https://github.com/chimpanze/taggy-typescript/commit/2c7fa31465b85560a934ec3bf00a3a0b0cf828dc))

@@ -11,7 +11,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 ## Installation
 
 ```sh
-npm install git+ssh://git@github.com:stainless-sdks/taggy-typescript.git
+npm install git+ssh://git@github.com:chimpanze/taggy-typescript.git
 ```
 
 > [!NOTE]
@@ -26,6 +26,7 @@ The full API of this library can be found in [api.md](api.md).
 import Taggy from 'taggy';
 
 const client = new Taggy({
+  taggyDomain: 'My Taggy Domain',
   bearerToken: process.env['TAGGY_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
@@ -43,6 +44,7 @@ This library includes TypeScript definitions for all request params and response
 import Taggy from 'taggy';
 
 const client = new Taggy({
+  taggyDomain: 'My Taggy Domain',
   bearerToken: process.env['TAGGY_BEARER_TOKEN'], // This is the default and can be omitted
 });
 
@@ -124,6 +126,7 @@ You can use the `maxRetries` option to configure or disable this:
 ```js
 // Configure the default for all requests:
 const client = new Taggy({
+  taggyDomain: 'My Taggy Domain',
   maxRetries: 0, // default is 2
 });
 
@@ -141,6 +144,7 @@ Requests time out after 1 minute by default. You can configure this with a `time
 ```ts
 // Configure the default for all requests:
 const client = new Taggy({
+  taggyDomain: 'My Taggy Domain',
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
@@ -153,6 +157,37 @@ await client.ai.analyze({
 On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
+
+## Auto-pagination
+
+List methods in the Taggy API are paginated.
+You can use the `for await … of` syntax to iterate through items across all pages:
+
+```ts
+async function fetchAllContentResponses(params) {
+  const allContentResponses = [];
+  // Automatically fetches more pages as needed.
+  for await (const contentResponse of client.content.list()) {
+    allContentResponses.push(contentResponse);
+  }
+  return allContentResponses;
+}
+```
+
+Alternatively, you can request a single page at a time:
+
+```ts
+let page = await client.content.list();
+for (const contentResponse of page.data) {
+  console.log(contentResponse);
+}
+
+// Convenience methods are provided for manually paginating:
+while (page.hasNextPage()) {
+  page = await page.getNextPage();
+  // ...
+}
+```
 
 ## Advanced Usage
 
@@ -364,7 +399,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/taggy-typescript/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/chimpanze/taggy-typescript/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 

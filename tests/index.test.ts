@@ -24,6 +24,7 @@ describe('instantiate client', () => {
       baseURL: 'http://localhost:5000/',
       defaultHeaders: { 'X-My-Default-Header': '2' },
       bearerToken: 'My Bearer Token',
+      taggyDomain: 'My Taggy Domain',
     });
 
     test('they are used in the request', async () => {
@@ -87,14 +88,19 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      const client = new Taggy({ logger: logger, logLevel: 'debug', bearerToken: 'My Bearer Token' });
+      const client = new Taggy({
+        logger: logger,
+        logLevel: 'debug',
+        bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
+      });
 
       await forceAPIResponseForClient(client);
       expect(debugMock).toHaveBeenCalled();
     });
 
     test('default logLevel is warn', async () => {
-      const client = new Taggy({ bearerToken: 'My Bearer Token' });
+      const client = new Taggy({ bearerToken: 'My Bearer Token', taggyDomain: 'My Taggy Domain' });
       expect(client.logLevel).toBe('warn');
     });
 
@@ -107,7 +113,12 @@ describe('instantiate client', () => {
         error: jest.fn(),
       };
 
-      const client = new Taggy({ logger: logger, logLevel: 'info', bearerToken: 'My Bearer Token' });
+      const client = new Taggy({
+        logger: logger,
+        logLevel: 'info',
+        bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
+      });
 
       await forceAPIResponseForClient(client);
       expect(debugMock).not.toHaveBeenCalled();
@@ -123,7 +134,11 @@ describe('instantiate client', () => {
       };
 
       process.env['TAGGY_LOG'] = 'debug';
-      const client = new Taggy({ logger: logger, bearerToken: 'My Bearer Token' });
+      const client = new Taggy({
+        logger: logger,
+        bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
+      });
       expect(client.logLevel).toBe('debug');
 
       await forceAPIResponseForClient(client);
@@ -140,7 +155,11 @@ describe('instantiate client', () => {
       };
 
       process.env['TAGGY_LOG'] = 'not a log level';
-      const client = new Taggy({ logger: logger, bearerToken: 'My Bearer Token' });
+      const client = new Taggy({
+        logger: logger,
+        bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
+      });
       expect(client.logLevel).toBe('warn');
       expect(warnMock).toHaveBeenCalledWith(
         'process.env[\'TAGGY_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
@@ -157,7 +176,12 @@ describe('instantiate client', () => {
       };
 
       process.env['TAGGY_LOG'] = 'debug';
-      const client = new Taggy({ logger: logger, logLevel: 'off', bearerToken: 'My Bearer Token' });
+      const client = new Taggy({
+        logger: logger,
+        logLevel: 'off',
+        bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
+      });
 
       await forceAPIResponseForClient(client);
       expect(debugMock).not.toHaveBeenCalled();
@@ -173,7 +197,12 @@ describe('instantiate client', () => {
       };
 
       process.env['TAGGY_LOG'] = 'not a log level';
-      const client = new Taggy({ logger: logger, logLevel: 'debug', bearerToken: 'My Bearer Token' });
+      const client = new Taggy({
+        logger: logger,
+        logLevel: 'debug',
+        bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
+      });
       expect(client.logLevel).toBe('debug');
       expect(warnMock).not.toHaveBeenCalled();
     });
@@ -185,6 +214,7 @@ describe('instantiate client', () => {
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo' },
         bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo');
     });
@@ -194,6 +224,7 @@ describe('instantiate client', () => {
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo', hello: 'world' },
         bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo&hello=world');
     });
@@ -203,6 +234,7 @@ describe('instantiate client', () => {
         baseURL: 'http://localhost:5000/',
         defaultQuery: { hello: 'world' },
         bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
       });
       expect(client.buildURL('/foo', { hello: undefined })).toEqual('http://localhost:5000/foo');
     });
@@ -212,6 +244,7 @@ describe('instantiate client', () => {
     const client = new Taggy({
       baseURL: 'http://localhost:5000/',
       bearerToken: 'My Bearer Token',
+      taggyDomain: 'My Taggy Domain',
       fetch: (url) => {
         return Promise.resolve(
           new Response(JSON.stringify({ url, custom: true }), {
@@ -230,6 +263,7 @@ describe('instantiate client', () => {
     const client = new Taggy({
       baseURL: 'http://localhost:5000/',
       bearerToken: 'My Bearer Token',
+      taggyDomain: 'My Taggy Domain',
       fetch: defaultFetch,
     });
   });
@@ -238,6 +272,7 @@ describe('instantiate client', () => {
     const client = new Taggy({
       baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
       bearerToken: 'My Bearer Token',
+      taggyDomain: 'My Taggy Domain',
       fetch: (...args) => {
         return new Promise((resolve, reject) =>
           setTimeout(
@@ -270,6 +305,7 @@ describe('instantiate client', () => {
     const client = new Taggy({
       baseURL: 'http://localhost:5000/',
       bearerToken: 'My Bearer Token',
+      taggyDomain: 'My Taggy Domain',
       fetch: testFetch,
     });
 
@@ -282,6 +318,7 @@ describe('instantiate client', () => {
       const client = new Taggy({
         baseURL: 'http://localhost:5000/custom/path/',
         bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
@@ -290,6 +327,7 @@ describe('instantiate client', () => {
       const client = new Taggy({
         baseURL: 'http://localhost:5000/custom/path',
         bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
@@ -299,37 +337,45 @@ describe('instantiate client', () => {
     });
 
     test('explicit option', () => {
-      const client = new Taggy({ baseURL: 'https://example.com', bearerToken: 'My Bearer Token' });
+      const client = new Taggy({
+        baseURL: 'https://example.com',
+        bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
+      });
       expect(client.baseURL).toEqual('https://example.com');
     });
 
     test('env variable', () => {
       process.env['TAGGY_BASE_URL'] = 'https://example.com/from_env';
-      const client = new Taggy({ bearerToken: 'My Bearer Token' });
+      const client = new Taggy({ bearerToken: 'My Bearer Token', taggyDomain: 'My Taggy Domain' });
       expect(client.baseURL).toEqual('https://example.com/from_env');
     });
 
     test('empty env variable', () => {
       process.env['TAGGY_BASE_URL'] = ''; // empty
-      const client = new Taggy({ bearerToken: 'My Bearer Token' });
-      expect(client.baseURL).toEqual('//localhost:8080/api/v1');
+      const client = new Taggy({ bearerToken: 'My Bearer Token', taggyDomain: 'My Taggy Domain' });
+      expect(client.baseURL).toEqual('//{taggy_domain}/api/v1');
     });
 
     test('blank env variable', () => {
       process.env['TAGGY_BASE_URL'] = '  '; // blank
-      const client = new Taggy({ bearerToken: 'My Bearer Token' });
-      expect(client.baseURL).toEqual('//localhost:8080/api/v1');
+      const client = new Taggy({ bearerToken: 'My Bearer Token', taggyDomain: 'My Taggy Domain' });
+      expect(client.baseURL).toEqual('//{taggy_domain}/api/v1');
     });
 
     test('in request options', () => {
-      const client = new Taggy({ bearerToken: 'My Bearer Token' });
+      const client = new Taggy({ bearerToken: 'My Bearer Token', taggyDomain: 'My Taggy Domain' });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/option/foo',
       );
     });
 
     test('in request options overridden by client options', () => {
-      const client = new Taggy({ bearerToken: 'My Bearer Token', baseURL: 'http://localhost:5000/client' });
+      const client = new Taggy({
+        bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
+        baseURL: 'http://localhost:5000/client',
+      });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/client/foo',
       );
@@ -337,7 +383,7 @@ describe('instantiate client', () => {
 
     test('in request options overridden by env variable', () => {
       process.env['TAGGY_BASE_URL'] = 'http://localhost:5000/env';
-      const client = new Taggy({ bearerToken: 'My Bearer Token' });
+      const client = new Taggy({ bearerToken: 'My Bearer Token', taggyDomain: 'My Taggy Domain' });
       expect(client.buildURL('/foo', null, 'http://localhost:5000/option')).toEqual(
         'http://localhost:5000/env/foo',
       );
@@ -345,11 +391,15 @@ describe('instantiate client', () => {
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new Taggy({ maxRetries: 4, bearerToken: 'My Bearer Token' });
+    const client = new Taggy({
+      maxRetries: 4,
+      bearerToken: 'My Bearer Token',
+      taggyDomain: 'My Taggy Domain',
+    });
     expect(client.maxRetries).toEqual(4);
 
     // default
-    const client2 = new Taggy({ bearerToken: 'My Bearer Token' });
+    const client2 = new Taggy({ bearerToken: 'My Bearer Token', taggyDomain: 'My Taggy Domain' });
     expect(client2.maxRetries).toEqual(2);
   });
 
@@ -359,6 +409,7 @@ describe('instantiate client', () => {
         baseURL: 'http://localhost:5000/',
         maxRetries: 3,
         bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
       });
 
       const newClient = client.withOptions({
@@ -385,6 +436,7 @@ describe('instantiate client', () => {
         defaultHeaders: { 'X-Test-Header': 'test-value' },
         defaultQuery: { 'test-param': 'test-value' },
         bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
       });
 
       const newClient = client.withOptions({
@@ -403,6 +455,7 @@ describe('instantiate client', () => {
         baseURL: 'http://localhost:5000/',
         timeout: 1000,
         bearerToken: 'My Bearer Token',
+        taggyDomain: 'My Taggy Domain',
       });
 
       // Modify the client properties directly after creation
@@ -432,20 +485,24 @@ describe('instantiate client', () => {
   test('with environment variable arguments', () => {
     // set options via env var
     process.env['TAGGY_BEARER_TOKEN'] = 'My Bearer Token';
+    process.env['TAGGY_DOMAIN'] = 'My Taggy Domain';
     const client = new Taggy();
     expect(client.bearerToken).toBe('My Bearer Token');
+    expect(client.taggyDomain).toBe('My Taggy Domain');
   });
 
   test('with overridden environment variable arguments', () => {
     // set options via env var
     process.env['TAGGY_BEARER_TOKEN'] = 'another My Bearer Token';
-    const client = new Taggy({ bearerToken: 'My Bearer Token' });
+    process.env['TAGGY_DOMAIN'] = 'another My Taggy Domain';
+    const client = new Taggy({ bearerToken: 'My Bearer Token', taggyDomain: 'My Taggy Domain' });
     expect(client.bearerToken).toBe('My Bearer Token');
+    expect(client.taggyDomain).toBe('My Taggy Domain');
   });
 });
 
 describe('request building', () => {
-  const client = new Taggy({ bearerToken: 'My Bearer Token' });
+  const client = new Taggy({ bearerToken: 'My Bearer Token', taggyDomain: 'My Taggy Domain' });
 
   describe('custom headers', () => {
     test('handles undefined', async () => {
@@ -464,7 +521,7 @@ describe('request building', () => {
 });
 
 describe('default encoder', () => {
-  const client = new Taggy({ bearerToken: 'My Bearer Token' });
+  const client = new Taggy({ bearerToken: 'My Bearer Token', taggyDomain: 'My Taggy Domain' });
 
   class Serializable {
     toJSON() {
@@ -549,7 +606,12 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Taggy({ bearerToken: 'My Bearer Token', timeout: 10, fetch: testFetch });
+    const client = new Taggy({
+      bearerToken: 'My Bearer Token',
+      taggyDomain: 'My Taggy Domain',
+      timeout: 10,
+      fetch: testFetch,
+    });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -579,7 +641,12 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Taggy({ bearerToken: 'My Bearer Token', fetch: testFetch, maxRetries: 4 });
+    const client = new Taggy({
+      bearerToken: 'My Bearer Token',
+      taggyDomain: 'My Taggy Domain',
+      fetch: testFetch,
+      maxRetries: 4,
+    });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
 
@@ -603,7 +670,12 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Taggy({ bearerToken: 'My Bearer Token', fetch: testFetch, maxRetries: 4 });
+    const client = new Taggy({
+      bearerToken: 'My Bearer Token',
+      taggyDomain: 'My Taggy Domain',
+      fetch: testFetch,
+      maxRetries: 4,
+    });
 
     expect(
       await client.request({
@@ -634,6 +706,7 @@ describe('retries', () => {
     };
     const client = new Taggy({
       bearerToken: 'My Bearer Token',
+      taggyDomain: 'My Taggy Domain',
       fetch: testFetch,
       maxRetries: 4,
       defaultHeaders: { 'X-Stainless-Retry-Count': null },
@@ -665,7 +738,12 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Taggy({ bearerToken: 'My Bearer Token', fetch: testFetch, maxRetries: 4 });
+    const client = new Taggy({
+      bearerToken: 'My Bearer Token',
+      taggyDomain: 'My Taggy Domain',
+      fetch: testFetch,
+      maxRetries: 4,
+    });
 
     expect(
       await client.request({
@@ -695,7 +773,11 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Taggy({ bearerToken: 'My Bearer Token', fetch: testFetch });
+    const client = new Taggy({
+      bearerToken: 'My Bearer Token',
+      taggyDomain: 'My Taggy Domain',
+      fetch: testFetch,
+    });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -725,7 +807,11 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Taggy({ bearerToken: 'My Bearer Token', fetch: testFetch });
+    const client = new Taggy({
+      bearerToken: 'My Bearer Token',
+      taggyDomain: 'My Taggy Domain',
+      fetch: testFetch,
+    });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
