@@ -843,6 +843,7 @@ export class Taggy {
   sharing: API.Sharing = new API.Sharing(this);
   tags: API.Tags = new API.Tags(this);
 }
+
 Taggy.AI = AI;
 Taggy.Archive = Archive;
 Taggy.Auth = Auth;
@@ -858,6 +859,7 @@ Taggy.Ready = Ready;
 Taggy.Search = Search;
 Taggy.Sharing = Sharing;
 Taggy.Tags = Tags;
+
 export declare namespace Taggy {
   export type RequestOptions = Opts.RequestOptions;
 
