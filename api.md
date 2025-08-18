@@ -234,6 +234,7 @@ Types:
 - <code><a href="./src/resources/search.ts">SearchGetSuggestionsResponse</a></code>
 - <code><a href="./src/resources/search.ts">SearchListRecentResponse</a></code>
 - <code><a href="./src/resources/search.ts">SearchListTrendingResponse</a></code>
+- <code><a href="./src/resources/search.ts">SearchReindexAllContentResponse</a></code>
 
 Methods:
 
@@ -241,6 +242,7 @@ Methods:
 - <code title="get /search/suggestions">client.search.<a href="./src/resources/search.ts">getSuggestions</a>({ ...params }) -> SearchGetSuggestionsResponse</code>
 - <code title="get /search/recent">client.search.<a href="./src/resources/search.ts">listRecent</a>({ ...params }) -> SearchListRecentResponse</code>
 - <code title="get /search/trending">client.search.<a href="./src/resources/search.ts">listTrending</a>({ ...params }) -> SearchListTrendingResponse</code>
+- <code title="post /search/backfill">client.search.<a href="./src/resources/search.ts">reindexAllContent</a>() -> SearchReindexAllContentResponse</code>
 
 # Sharing
 

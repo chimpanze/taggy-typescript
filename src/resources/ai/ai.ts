@@ -64,7 +64,7 @@ export interface AITrainModelResponse {
 }
 
 export interface AIAnalyzeParams {
-  content_id?: number;
+  content_id: number;
 }
 
 AI.Settings = Settings;

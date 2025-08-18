@@ -42,6 +42,14 @@ export class Search extends APIResource {
   ): APIPromise<SearchListTrendingResponse> {
     return this._client.get('/search/trending', { query, ...options });
   }
+
+  /**
+   * Triggers a reindex of all content into Typesense for the current user. No-op
+   * when disabled.
+   */
+  reindexAllContent(options?: RequestOptions): APIPromise<SearchReindexAllContentResponse> {
+    return this._client.post('/search/backfill', options);
+  }
 }
 
 export interface SearchResult {
@@ -81,6 +89,8 @@ export interface SearchGetSuggestionsResponse {
 export type SearchListRecentResponse = Array<SearchResult>;
 
 export type SearchListTrendingResponse = Array<SearchResult>;
+
+export type SearchReindexAllContentResponse = { [key: string]: string };
 
 export interface SearchRetrieveParams {
   /**
@@ -147,6 +157,7 @@ export declare namespace Search {
     type SearchGetSuggestionsResponse as SearchGetSuggestionsResponse,
     type SearchListRecentResponse as SearchListRecentResponse,
     type SearchListTrendingResponse as SearchListTrendingResponse,
+    type SearchReindexAllContentResponse as SearchReindexAllContentResponse,
     type SearchRetrieveParams as SearchRetrieveParams,
     type SearchGetSuggestionsParams as SearchGetSuggestionsParams,
     type SearchListRecentParams as SearchListRecentParams,

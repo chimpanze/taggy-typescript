@@ -3,7 +3,7 @@
 import Taggy, { toFile } from '@chimpanze/taggy-typescript';
 
 const client = new Taggy({
-  bearerToken: 'Bearer ijdsoiasjdOHsodiuhsioudh',
+  apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 

@@ -77,6 +77,7 @@ export {
   type SearchGetSuggestionsResponse,
   type SearchListRecentResponse,
   type SearchListTrendingResponse,
+  type SearchReindexAllContentResponse,
   type SearchRetrieveParams,
   type SearchGetSuggestionsParams,
   type SearchListRecentParams,

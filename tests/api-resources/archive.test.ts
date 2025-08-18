@@ -3,14 +3,14 @@
 import Taggy from '@chimpanze/taggy-typescript';
 
 const client = new Taggy({
-  bearerToken: 'Bearer ijdsoiasjdOHsodiuhsioudh',
+  apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
 describe('resource archive', () => {
   // Prism tests are disabled
   test.skip('create: only required params', async () => {
-    const responsePromise = client.archive.create({ content_id: 0, url: 'url' });
+    const responsePromise = client.archive.create({ url: 'url' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,7 +22,13 @@ describe('resource archive', () => {
 
   // Prism tests are disabled
   test.skip('create: required and optional params', async () => {
-    const response = await client.archive.create({ content_id: 0, url: 'url', format: 'format' });
+    const response = await client.archive.create({
+      url: 'url',
+      content_id: 0,
+      description: 'description',
+      format: 'format',
+      title: 'title',
+    });
   });
 
   // Prism tests are disabled
