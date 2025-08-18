@@ -144,11 +144,15 @@ export interface ExtensionRetrieveAISuggestionsResponse {
 export type ExtensionRetrieveUserTagsResponse = Array<TagsAPI.Tag>;
 
 export interface ExtensionArchiveCurrentPageParams {
-  content_id: number;
-
   url: string;
 
+  content_id?: number;
+
+  description?: string;
+
   format?: string;
+
+  title?: string;
 }
 
 export interface ExtensionQuickTagContentParams {

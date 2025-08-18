@@ -53,9 +53,9 @@ export interface MediaSettings {
 export interface SettingUpdateParams {
   allowed_domains?: string;
 
-  audio_format?: string;
+  audio_format?: 'mp3' | 'm4a' | 'flac' | 'wav' | 'opus';
 
-  audio_quality?: string;
+  audio_quality?: 'low' | 'medium' | 'high' | 'best';
 
   auto_extract_audio?: boolean;
 
@@ -63,9 +63,9 @@ export interface SettingUpdateParams {
 
   max_file_size?: number;
 
-  preferred_format?: string;
+  preferred_format?: 'mp4' | 'mkv' | 'webm' | 'mp3' | 'm4a';
 
-  preferred_quality?: string;
+  preferred_quality?: 'low' | 'medium' | 'high' | 'best';
 
   save_subtitles?: boolean;
 

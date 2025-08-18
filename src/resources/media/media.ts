@@ -103,9 +103,6 @@ export interface MediaJobQueued {
 
   job_id?: number;
 
-  /**
-   * always "pending" on creation
-   */
   status?: string;
 }
 

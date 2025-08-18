@@ -16,7 +16,15 @@ export class Ready extends APIResource {
 export interface ReadyCheckResponse {
   database?: string;
 
+  redis?: string;
+
+  s3?: string;
+
   status?: string;
+
+  time?: string;
+
+  typesense?: string;
 }
 
 export declare namespace Ready {

@@ -23,10 +23,10 @@ The full API of this library can be found in [api.md](api.md).
 import Taggy from '@chimpanze/taggy-typescript';
 
 const client = new Taggy({
-  bearerToken: process.env['TAGGY_BEARER_TOKEN'], // This is the default and can be omitted
+  apiKey: process.env['TAGGY_API_KEY'], // This is the default and can be omitted
 });
 
-const tagSuggestions = await client.ai.analyze();
+const tagSuggestions = await client.ai.analyze({ content_id: 0 });
 
 console.log(tagSuggestions.content_id);
 ```
@@ -40,10 +40,11 @@ This library includes TypeScript definitions for all request params and response
 import Taggy from '@chimpanze/taggy-typescript';
 
 const client = new Taggy({
-  bearerToken: process.env['TAGGY_BEARER_TOKEN'], // This is the default and can be omitted
+  apiKey: process.env['TAGGY_API_KEY'], // This is the default and can be omitted
 });
 
-const tagSuggestions: Taggy.TagSuggestions = await client.ai.analyze();
+const params: Taggy.AIAnalyzeParams = { content_id: 0 };
+const tagSuggestions: Taggy.TagSuggestions = await client.ai.analyze(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -85,7 +86,7 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const tagSuggestions = await client.ai.analyze().catch(async (err) => {
+const tagSuggestions = await client.ai.analyze({ content_id: 0 }).catch(async (err) => {
   if (err instanceof Taggy.APIError) {
     console.log(err.status); // 400
     console.log(err.name); // BadRequestError
@@ -125,7 +126,7 @@ const client = new Taggy({
 });
 
 // Or, configure per-request:
-await client.ai.analyze({
+await client.ai.analyze({ content_id: 0 }, {
   maxRetries: 5,
 });
 ```
@@ -142,7 +143,7 @@ const client = new Taggy({
 });
 
 // Override per-request:
-await client.ai.analyze({
+await client.ai.analyze({ content_id: 0 }, {
   timeout: 5 * 1000,
 });
 ```
@@ -150,37 +151,6 @@ await client.ai.analyze({
 On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
-
-## Auto-pagination
-
-List methods in the Taggy API are paginated.
-You can use the `for await … of` syntax to iterate through items across all pages:
-
-```ts
-async function fetchAllContentResponses(params) {
-  const allContentResponses = [];
-  // Automatically fetches more pages as needed.
-  for await (const contentResponse of client.content.list()) {
-    allContentResponses.push(contentResponse);
-  }
-  return allContentResponses;
-}
-```
-
-Alternatively, you can request a single page at a time:
-
-```ts
-let page = await client.content.list();
-for (const contentResponse of page.data) {
-  console.log(contentResponse);
-}
-
-// Convenience methods are provided for manually paginating:
-while (page.hasNextPage()) {
-  page = await page.getNextPage();
-  // ...
-}
-```
 
 ## Advanced Usage
 
@@ -196,11 +166,11 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new Taggy();
 
-const response = await client.ai.analyze().asResponse();
+const response = await client.ai.analyze({ content_id: 0 }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: tagSuggestions, response: raw } = await client.ai.analyze().withResponse();
+const { data: tagSuggestions, response: raw } = await client.ai.analyze({ content_id: 0 }).withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(tagSuggestions.content_id);
 ```
