@@ -62,11 +62,15 @@ export interface ArchiveResponse {
 }
 
 export interface ArchiveCreateParams {
-  content_id: number;
-
   url: string;
 
+  content_id?: number;
+
+  description?: string;
+
   format?: string;
+
+  title?: string;
 }
 
 export declare namespace Archive {

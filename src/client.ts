@@ -59,6 +59,7 @@ import {
   SearchListRecentResponse,
   SearchListTrendingParams,
   SearchListTrendingResponse,
+  SearchReindexAllContentResponse,
   SearchResult,
   SearchRetrieveParams,
   SearchRetrieveResponse,
@@ -128,7 +129,7 @@ export interface ClientOptions {
   /**
    * Type "Bearer" followed by a space and JWT token.
    */
-  bearerToken?: string | undefined;
+  apiKey?: string | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -203,7 +204,7 @@ export interface ClientOptions {
  * API Client for interfacing with the Taggy API.
  */
 export class Taggy {
-  bearerToken: string;
+  apiKey: string;
 
   baseURL: string;
   maxRetries: number;
@@ -220,7 +221,7 @@ export class Taggy {
   /**
    * API Client for interfacing with the Taggy API.
    *
-   * @param {string | undefined} [opts.bearerToken=process.env['TAGGY_BEARER_TOKEN'] ?? undefined]
+   * @param {string | undefined} [opts.apiKey=process.env['TAGGY_API_KEY'] ?? undefined]
    * @param {string} [opts.baseURL=process.env['TAGGY_BASE_URL'] ?? //mytaggy.app/api/v1] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
@@ -231,17 +232,17 @@ export class Taggy {
    */
   constructor({
     baseURL = readEnv('TAGGY_BASE_URL'),
-    bearerToken = readEnv('TAGGY_BEARER_TOKEN'),
+    apiKey = readEnv('TAGGY_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
-    if (bearerToken === undefined) {
+    if (apiKey === undefined) {
       throw new Errors.TaggyError(
-        "The TAGGY_BEARER_TOKEN environment variable is missing or empty; either provide it, or instantiate the Taggy client with an bearerToken option, like new Taggy({ bearerToken: 'Bearer ijdsoiasjdOHsodiuhsioudh' }).",
+        "The TAGGY_API_KEY environment variable is missing or empty; either provide it, or instantiate the Taggy client with an apiKey option, like new Taggy({ apiKey: 'My API Key' }).",
       );
     }
 
     const options: ClientOptions = {
-      bearerToken,
+      apiKey,
       ...opts,
       baseURL: baseURL || `//mytaggy.app/api/v1`,
     };
@@ -263,7 +264,7 @@ export class Taggy {
 
     this._options = options;
 
-    this.bearerToken = bearerToken;
+    this.apiKey = apiKey;
   }
 
   /**
@@ -279,7 +280,7 @@ export class Taggy {
       logLevel: this.logLevel,
       fetch: this.fetch,
       fetchOptions: this.fetchOptions,
-      bearerToken: this.bearerToken,
+      apiKey: this.apiKey,
       ...options,
     });
     return client;
@@ -301,7 +302,7 @@ export class Taggy {
   }
 
   protected async authHeaders(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
-    return buildHeaders([{ Authorization: this.bearerToken }]);
+    return buildHeaders([{ Authorization: this.apiKey }]);
   }
 
   /**
@@ -843,6 +844,7 @@ export class Taggy {
   sharing: API.Sharing = new API.Sharing(this);
   tags: API.Tags = new API.Tags(this);
 }
+
 Taggy.AI = AI;
 Taggy.Archive = Archive;
 Taggy.Auth = Auth;
@@ -858,6 +860,7 @@ Taggy.Ready = Ready;
 Taggy.Search = Search;
 Taggy.Sharing = Sharing;
 Taggy.Tags = Tags;
+
 export declare namespace Taggy {
   export type RequestOptions = Opts.RequestOptions;
 
@@ -960,6 +963,7 @@ export declare namespace Taggy {
     type SearchGetSuggestionsResponse as SearchGetSuggestionsResponse,
     type SearchListRecentResponse as SearchListRecentResponse,
     type SearchListTrendingResponse as SearchListTrendingResponse,
+    type SearchReindexAllContentResponse as SearchReindexAllContentResponse,
     type SearchRetrieveParams as SearchRetrieveParams,
     type SearchGetSuggestionsParams as SearchGetSuggestionsParams,
     type SearchListRecentParams as SearchListRecentParams,
