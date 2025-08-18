@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.5.0 (2025-08-18)
+
+Full Changelog: [v0.4.0...v0.5.0](https://github.com/chimpanze/taggy-typescript/compare/v0.4.0...v0.5.0)
+
+### Features
+
+* **api:** update via SDK Studio ([78117d6](https://github.com/chimpanze/taggy-typescript/commit/78117d60a4dda74c364b7879e55393e9513d8185))
+* **api:** update via SDK Studio ([073331d](https://github.com/chimpanze/taggy-typescript/commit/073331deade1441f781d0e4088e24e68af5e7cdf))
+
+
+### Chores
+
+* **deps:** update dependency @types/node to v20.17.58 ([2e0aeab](https://github.com/chimpanze/taggy-typescript/commit/2e0aeabeb5b5bf779629f07bd3b9b53c2184f543))
+* **internal:** formatting change ([4bf28f7](https://github.com/chimpanze/taggy-typescript/commit/4bf28f761e68f48b133f2c6d279672cc5fab7d21))
+
 ## 0.4.0 (2025-08-12)
 
 Full Changelog: [v0.3.0...v0.4.0](https://github.com/chimpanze/taggy-typescript/compare/v0.3.0...v0.4.0)
