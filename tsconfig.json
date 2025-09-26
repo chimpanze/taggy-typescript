@@ -7,10 +7,9 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "baseUrl": "./",
     "paths": {
-      "@chimpanze/taggy-typescript/*": ["src/*"],
-      "@chimpanze/taggy-typescript": ["src/index.ts"]
+      "@chimpanze/taggy-typescript/*": ["./src/*"],
+      "@chimpanze/taggy-typescript": ["./src/index.ts"]
     },
     "noEmit": true,
 
